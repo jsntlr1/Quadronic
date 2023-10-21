@@ -28,9 +28,11 @@ public class Movement : MonoBehaviour
     Vector2 currentDir;
     Vector2 currentDirVelocity;
     Vector3 velocity;
+    Animator animator;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
 
         if (cursorLock)
@@ -75,6 +77,14 @@ public class Movement : MonoBehaviour
         Vector3 velocity = (transform.forward * currentDir.y + transform.right * currentDir.x) * Speed + Vector3.up * velocityY;
 
         controller.Move(velocity * Time.deltaTime);
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            animator.SetBool("isMoving", true);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+        }
 
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
